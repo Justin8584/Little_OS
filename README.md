@@ -113,31 +113,33 @@ This project was developed using the Windows Subsystem for Linux (WSL) on Window
 
 ## File Structure
 
+```text
 Little_OS/
-├── Makefile
-├── link.ld
-├── grub.cfg
-├── include/
-│   ├── common.h
-│   ├── fb.h
-│   ├── gdt.h
-│   ├── idt.h
-│   ├── io.h
-│   ├── multiboot.h
-│   ├── shell.h
-│   └── string.h
-├── src/
-│   ├── fb.c
-│   ├── gdt.c
-│   ├── idt.c
-│   ├── interrupts.c
-│   ├── kmain.c
-│   ├── shell.c
-│   └── string.c
-├── arch/
-│   └── i386/
-│       ├── gdt_asm.s
-│       ├── idt_asm.s
-│       ├── io.s
-│       └── loader.s
-└── build/          # Will be created and populated by make
+├── Makefile             # Main build configuration
+├── link.ld              # Linker script for memory layout
+├── grub.cfg             # GRUB bootloader configuration for ISO
+├── include/             # Header files (.h)
+│   ├── common.h         # Common type definitions (uintN_t, size_t, etc.)
+│   ├── fb.h             # Framebuffer driver declarations
+│   ├── gdt.h            # GDT declarations
+│   ├── idt.h            # IDT declarations
+│   ├── io.h             # I/O port function declarations (inb/outb)
+│   ├── multiboot.h      # Standard Multiboot header definitions
+│   ├── shell.h          # Shell function declarations
+│   └── string.h         # Basic string/memory function declarations
+├── src/                 # C source files (.c)
+│   ├── fb.c             # Framebuffer driver implementation
+│   ├── gdt.c            # GDT implementation
+│   ├── idt.c            # IDT and PIC implementation
+│   ├── interrupts.c     # C interrupt handlers (ISR/IRQ)
+│   ├── kmain.c          # Main kernel entry point (C code)
+│   ├── shell.c          # Shell logic and command implementations
+│   └── string.c         # Basic string/memory function implementations
+├── arch/                # Architecture-specific code
+│   └── i386/            # Code for the 32-bit x86 architecture
+│       ├── gdt_asm.s    # GDT assembly helper (gdt_flush)
+│       ├── idt_asm.s    # IDT assembly helpers (lidt, ISR/IRQ stubs)
+│       ├── io.s         # I/O port assembly implementation (inb/outb)
+│       └── loader.s     # Initial assembly entry point & Multiboot header
+└── build/               # Build output directory (created by make)
+    └── *.o              # Compiled object files
