@@ -1,6 +1,4 @@
-# Little OS Project
-
-# CSYE6230 Operating System Final Project
+# CSYE6230 Operating System Final Project - Little OS
 
 A basic, educational "Operating System" kernel developed from scratch, focusing on understanding the boot process, low-level hardware interaction, interrupt handling, and implementing a simple interactive shell.
 
