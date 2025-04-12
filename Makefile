@@ -17,13 +17,13 @@ ISO_DIR := iso
 ASM := nasm
 CC := gcc
 LD := ld
-QEMU := qemu-system-i386 # Use the specific target arch
+QEMU := qemu-system-i386 
 
 # --- Flags ---
-ASMFLAGS := -f elf32 # Output format: 32-bit ELF
+ASMFLAGS := -f elf32 
 CFLAGS := -m32 -std=gnu11 -ffreestanding -nostdlib -nostdinc -fno-builtin -fno-stack-protector -Wall -Wextra -Werror -g
-CFLAGS += -I$(INCLUDE_DIR) # Add include directory path
-LDFLAGS := -T link.ld -melf_i386 # Use linker script in root, 32-bit ELF output
+CFLAGS += -I$(INCLUDE_DIR) 
+LDFLAGS := -T link.ld -melf_i386 
 
 # --- Source Files ---
 # Find source files in their respective directories
@@ -46,12 +46,12 @@ all: $(ISO_FILE)
 
 # --- Build Rules ---
 
-# Rule to link the kernel ELF file
+# Link the kernel ELF file
 $(KERNEL_ELF): $(OBJECTS) link.ld
 	@echo "Linking $@..."
 	$(LD) $(LDFLAGS) $(OBJECTS) -o $@
 
-# Rule to compile assembly files (.s -> .o)
+# Compile assembly files (.s -> .o)
 # $<: first prerequisite (.s file)
 # $@: target file (.o file)
 # The '| $(BUILD_DIR)' part ensures the build directory exists first (order-only prerequisite)
@@ -59,18 +59,18 @@ $(BUILD_DIR)/%.o: %.s | $(BUILD_DIR)
 	@echo "Assembling $<..."
 	$(ASM) $(ASMFLAGS) $< -o $@
 
-# Rule to compile C files (.c -> .o)
+# Compile C files (.c -> .o)
 $(BUILD_DIR)/%.o: %.c $(wildcard $(INCLUDE_DIR)/*.h) | $(BUILD_DIR)
 	@echo "Compiling $<..."
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Rule to create the build directory
+# Create the build directory
 # This is an order-only prerequisite for the object file rules
 $(BUILD_DIR):
 	@echo "Creating build directory $@..."
 	@mkdir -p $@
 
-# Rule to create the ISO image
+# Create the ISO image
 # Depends on the kernel ELF and the GRUB config
 $(ISO_FILE): $(KERNEL_ELF) grub.cfg | $(BUILD_DIR)
 	@echo "Creating ISO image $@..."

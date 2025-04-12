@@ -1,10 +1,10 @@
 // shell.c - Simple shell implementation
 
-#include "shell.h"     // Our own declarations
-#include "fb.h"        // For framebuffer output
-#include "multiboot.h" // For meminfo command (needs multiboot.h header file)
-#include "common.h"    // For types like uint32_t, size_t
-#include "string.h"    // For memset, strcmp, strncmp
+#include "shell.h"
+#include "fb.h"
+#include "multiboot.h"
+#include "common.h"
+#include "string.h"
 
 // Access the global MB info address (defined in kmain.c)
 extern unsigned long global_mb_info_addr;

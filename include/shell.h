@@ -2,7 +2,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "common.h" // For size_t, uintN_t
+#include "common.h"
 
 #define CMD_BUFFER_SIZE 256 // Define the command buffer size
 
@@ -19,6 +19,5 @@ void run_shell_command(const char *command);
 void clear_cmd_buffer();
 
 // Declare utility functions defined in shell.c if needed elsewhere
-void fb_write_dec(unsigned int n); // Function to print decimal numbers
-
-#endif // SHELL_H
+void fb_write_dec(unsigned int n);
+#endif

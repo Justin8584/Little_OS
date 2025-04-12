@@ -65,10 +65,10 @@ void fb_scroll()
 void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg)
 {
     if (i >= FB_ROWS * FB_COLS)
-        return;                  // Bounds check
-    unsigned int fb_idx = i * 2; // Each cell is 2 bytes
+        return;
+    unsigned int fb_idx = i * 2;
     fb[fb_idx] = c;
-    fb[fb_idx + 1] = ((bg & 0x0F) << 4) | (fg & 0x0F); // Corrected order: BG then FG
+    fb[fb_idx + 1] = ((bg & 0x0F) << 4) | (fg & 0x0F);
 }
 
 // Write a cell (char + colors) at the current cursor position and advance

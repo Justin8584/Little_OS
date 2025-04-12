@@ -2,23 +2,21 @@
 #ifndef IDT_H
 #define IDT_H
 
-#include "common.h" // For standard integer types like uint32_t
+#include "common.h"
 
-// Structure for an IDT entry (Interrupt Gate)
 struct idt_entry
 {
-    uint16_t base_low;         // Lower 16 bits of handler function address
-    uint16_t segment_selector; // Kernel segment selector (usually 0x08)
-    uint8_t zero;              // Always zero
-    uint8_t flags;             // Type and attributes (e.g., P, DPL, S, Type=0xE for 32-bit int gate)
-    uint16_t base_high;        // Upper 16 bits of handler function address
-} __attribute__((packed));     // Prevent compiler padding
+    uint16_t base_low;
+    uint16_t segment_selector;
+    uint8_t zero;
+    uint8_t flags;
+    uint16_t base_high;
+} __attribute__((packed));
 
-// Structure for the IDT pointer (used with lidt instruction)
 struct idt_ptr
 {
-    uint16_t limit; // Size of IDT in bytes minus 1
-    uint32_t base;  // Linear address of the first IDT entry
+    uint16_t limit;
+    uint32_t base;
 } __attribute__((packed));
 
 // Declare ISR stubs (implemented in assembly: idt_asm.s)
@@ -32,4 +30,4 @@ extern void irq1(); // Keyboard interrupt (IRQ 1)
 // Function to initialize the IDT and PIC
 void idt_init();
 
-#endif // IDT_H
+#endif

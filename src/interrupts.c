@@ -55,8 +55,7 @@ void keyboard_handler()
         return;
     }
 
-    // Handle key press
-    // Check if scancode is within our defined mapping range
+    // Handle key press - Check if scancode is within our defined mapping range
     if (scancode < sizeof(scancode_to_ascii) && scancode_to_ascii[scancode] != 0)
     {
         char ascii = scancode_to_ascii[scancode];

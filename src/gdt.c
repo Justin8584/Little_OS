@@ -8,7 +8,6 @@ struct gdt_entry gdt[GDT_ENTRIES];
 struct gdt_ptr gdt_p;
 
 // External ASM function to load GDT register (lgdt) and update segment registers
-// We'll create this in gdt_asm.s
 extern void gdt_flush(struct gdt_ptr *gdt_p_addr);
 
 // Function to set a GDT entry
@@ -26,8 +25,8 @@ static void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t acc
     gdt[num].limit_low = (limit & 0xFFFF);
     gdt[num].granularity = ((limit >> 16) & 0x0F); // Upper 4 bits of limit
 
-    gdt[num].granularity |= (granularity & 0xF0); // Add G, D/B, L, AVL flags
-    gdt[num].access = access;                     // Set access flags (P, DPL, S, Type)
+    gdt[num].granularity |= (granularity & 0xF0);
+    gdt[num].access = access;
 }
 
 // Initialize GDT

@@ -1,25 +1,19 @@
 // idt.c - IDT and PIC initialization (sti UNCOMMENTED)
 #include "idt.h"
-#include "io.h"     // For outb (needed for PIC)
-#include "string.h" // For memset
-#include "common.h" // For types
-#include "fb.h"     // For printing messages (optional)
+#include "io.h"
+#include "string.h"
+#include "common.h"
+#include "fb.h"
 
 #define IDT_ENTRIES 256
-#define KERNEL_CODE_SEGMENT 0x08      // Your kernel code segment selector from GDT
-#define IDT_INTERRUPT_GATE_32BIT 0x8E // P=1, DPL=0, S=0, Type=0xE (32-bit interrupt gate)
-
+#define KERNEL_CODE_SEGMENT 0x08
+#define IDT_INTERRUPT_GATE_32BIT 0x8E
 // --- Globals ---
-// The actual Interrupt Descriptor Table (array of entries)
 struct idt_entry idt[IDT_ENTRIES];
-// The pointer structure used by the lidt instruction
 struct idt_ptr idt_p;
 
-// --- External ASM function ---
 // Defined in idt_asm.s, loads the IDTR register
 extern void idt_load(struct idt_ptr *idt_p_addr);
-
-// --- Function Implementations ---
 
 // Function to set an IDT entry (gate)
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t segment_selector, uint8_t flags)
@@ -88,5 +82,5 @@ void idt_init()
     idt_load(&idt_p);
 
     // Enable interrupts processor-wide using the 'sti' instruction
-    asm volatile("sti"); // <<< Ensure this is UNCOMMENTED
+    asm volatile("sti");
 }

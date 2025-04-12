@@ -15,7 +15,7 @@ void kmain(unsigned long multiboot_magic, unsigned long multiboot_info_addr)
     (void)multiboot_magic; // Mark as unused for now
 
     fb_clear();
-    fb_write_string("Simple OS Booting...\n", FB_GREEN, FB_BLACK);
+    fb_write_string("Little OS Booting...\n", FB_GREEN, FB_BLACK);
 
     gdt_init(); // Initialize GDT first
     fb_write_string("GDT Initialized.\n", FB_WHITE, FB_BLACK);
