@@ -20,4 +20,7 @@ void clear_cmd_buffer();
 
 // Declare utility functions defined in shell.c if needed elsewhere
 void fb_write_dec(unsigned int n);
+
+void fb_write_error(const char *msg);
+
 #endif

@@ -46,4 +46,6 @@ void fb_clear();
 unsigned short fb_get_cursor_row();
 unsigned short fb_get_cursor_col();
 
+void fb_write_dec(unsigned int n);
+
 #endif

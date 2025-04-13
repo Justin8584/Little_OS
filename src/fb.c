@@ -1,7 +1,7 @@
 // fb.c - Framebuffer driver implementation
 #include "fb.h"
 #include "io.h"
-#include "string.h" // For memset in fb_clear scrolling logic if needed
+#include "string.h"
 
 // Framebuffer memory address
 static char *fb = (char *)0x000B8000;
@@ -103,6 +103,34 @@ void fb_write_cell_at_cursor(char c, unsigned char fg, unsigned char bg)
 
     // Update hardware cursor position
     fb_move_cursor(cursor_row, cursor_col);
+}
+
+// Add to src/fb.c if not already present
+void fb_write_dec(unsigned int n)
+{
+    if (n == 0)
+    {
+        fb_write_cell_at_cursor('0', FB_WHITE, FB_BLACK);
+        return;
+    }
+
+    char buffer[12]; // Max 10 digits for 32-bit unsigned int + null
+    int i = 10;
+    buffer[11] = '\0'; // Null terminate
+
+    unsigned int num = n;
+
+    while (num > 0 && i >= 0)
+    {
+        buffer[i--] = (num % 10) + '0';
+        num /= 10;
+    }
+
+    // If i went negative, reset it to 0
+    if (i < 0)
+        i = 0;
+
+    fb_write_string(&buffer[i + 1], FB_WHITE, FB_BLACK);
 }
 
 // Write a null-terminated string

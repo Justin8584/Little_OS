@@ -4,6 +4,7 @@
 #include "fb.h"     // For printing, screen manipulation
 #include "io.h"     // For inb/outb (keyboard, PIC EOI)
 #include "shell.h"  // For shell functions (command execution, buffer management)
+#include "interrupts.h"
 
 // Define constants BEFORE use
 #define ESC 0x1B // ASCII value for the Escape key
@@ -138,24 +139,19 @@ void irq_handler(registers_t *regs)
 {
     // Send End-of-Interrupt (EOI) signal(s) to the PIC(s)
     if (regs->int_no >= 40)
-    {                                     // From Slave PIC? (ISR 40-47 are IRQ 8-15)
-        outb(PIC2_COMMAND_PORT, PIC_EOI); // Send EOI to Slave
+    { // IRQ 8-15
+        outb(PIC2_COMMAND_PORT, PIC_EOI);
     }
-    outb(PIC1_COMMAND_PORT, PIC_EOI); // Send EOI to Master
+    outb(PIC1_COMMAND_PORT, PIC_EOI); // Always send to Master
 
     // Handle the specific hardware interrupt based on its number
     if (regs->int_no == 33)
-    { // IRQ 1 (Keyboard) -> ISR 33
-        keyboard_handler();
-        // --- You could print a character here to see if IRQ 1 arrives ---
-        // fb_write_cell_at_cursor('K', FB_MAGENTA, FB_BLACK);
+    {                       // IRQ 1 (Keyboard)
+        keyboard_handler(); // This function uses inb()
     }
     else if (regs->int_no == 32)
-    { // IRQ 0 (Timer) -> ISR 32
-      // Timer handler code would go here (e.g., increment tick counter)
-      // For now, do nothing.
-      // --- You could print a character here to see if IRQ 0 arrives ---
-      // fb_write_cell_at_cursor('.', FB_CYAN, FB_BLACK);
+    { // IRQ 0 (Timer)
+      // Timer handler code would go here
     }
-    // Add 'else if' blocks for other IRQs you want to handle
+    // ...
 }
